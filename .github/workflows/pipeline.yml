@@ -27,6 +27,7 @@ jobs:
               uses: hashicorp/setup-terraform@v1
               with:
                   cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+            - name: Check Terraform
               run: |
                 echo ""
                 echo "------------------------"
@@ -39,6 +40,7 @@ jobs:
               uses: actions/setup-python@v2
               with:
                 python-version: "3.9"
+            - name: Check python
               run: |
                 echo ""
                 echo "------------------------"
