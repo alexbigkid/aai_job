@@ -1,7 +1,7 @@
 #! /bin/bash
 
-# COMMON_LIB_FILE="CommonLib.sh"
-# [ -f $COMMON_LIB_FILE ] && source $COMMON_LIB_FILE
+COMMON_LIB_FILE="CommonLib.sh"
+[ -f $COMMON_LIB_FILE ] && source $COMMON_LIB_FILE
 
 #---------------------------
 # functions
