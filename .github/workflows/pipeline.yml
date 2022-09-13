@@ -55,7 +55,7 @@ jobs:
 
             # deploys Terraform first, unit tests lambdas and deploys them
             - name: Deploy
-              run: Deploy.sh
+              run: ./Deploy.sh
               shell: bash
               env:
                 AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
