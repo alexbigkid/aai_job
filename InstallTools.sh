@@ -11,13 +11,13 @@ InstallRequiredToolsUsingBrew ()
     local TOOL=(
                     aws
                     parallel
-                    serverless
+                    # serverless
                     terraform
                 )
     local PACKAGE=(
                     awscli
                     parallel
-                    serverless
+                    # serverless
                     terraform
                   )
     echo
@@ -35,29 +35,29 @@ InstallRequiredToolsUsingBrew ()
     done
 }
 
-# InstallRequiredToolsUsingNpm ()
-# {
-#     local TOOL=(
-#                     serverless
-#                 )
-#     local PACKAGE=(
-#                     serverless
-#                   )
-#     echo
-#     echo -e "${GREEN}----------------------------------------------------------------------${NC}"
-#     echo -e "${GREEN}| ${FUNCNAME[0]}${NC}"
-#     echo -e "${RED}| Please use this function if the installation of required tool fails with InstallRequiredToolsUsingBrew.${NC}"
-#     echo -e "${GREEN}----------------------------------------------------------------------${NC}"
+InstallRequiredToolsUsingNpm ()
+{
+    local TOOL=(
+                    serverless
+                )
+    local PACKAGE=(
+                    serverless
+                  )
+    echo
+    echo -e "${GREEN}----------------------------------------------------------------------${NC}"
+    echo -e "${GREEN}| ${FUNCNAME[0]}${NC}"
+    echo -e "${RED}| Please use this function if the installation of required tool fails with InstallRequiredToolsUsingBrew.${NC}"
+    echo -e "${GREEN}----------------------------------------------------------------------${NC}"
 
-#     for (( i = 0; i < ${#TOOL[@]}; i++)); do
-#         echo -e "\n------------------------\n${TOOL[$i]} - INSTALL AND CHECK\n------------------------"
-#         [ "$(command -v ${TOOL[$i]})" == "" ] && sudo npm -g install ${PACKAGE[$i]} || which ${TOOL[$i]}
-#         echo -e "\n------------------------\n${TOOL[$i]} - VERSION\n------------------------"
-#         ${TOOL[$i]} --version || exit $?
-#         echo -e "${YELLOW}----------------------------------------------------------------------${NC}"
-#         echo
-#     done
-# }
+    for (( i = 0; i < ${#TOOL[@]}; i++)); do
+        echo -e "\n------------------------\n${TOOL[$i]} - INSTALL AND CHECK\n------------------------"
+        [ "$(command -v ${TOOL[$i]})" == "" ] && sudo npm -g install ${PACKAGE[$i]} || which ${TOOL[$i]}
+        echo -e "\n------------------------\n${TOOL[$i]} - VERSION\n------------------------"
+        ${TOOL[$i]} --version || exit $?
+        echo -e "${YELLOW}----------------------------------------------------------------------${NC}"
+        echo
+    done
+}
 
 #---------------------------
 # main
@@ -66,7 +66,7 @@ echo
 echo "-> $0 ($@)"
 
 InstallRequiredToolsUsingBrew || exit $?
-# InstallRequiredToolsUsingNpm || exit $?
+InstallRequiredToolsUsingNpm || exit $?
 
 echo "<- $0 (0)"
 echo

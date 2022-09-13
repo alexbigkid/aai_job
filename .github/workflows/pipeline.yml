@@ -48,6 +48,18 @@ jobs:
                 echo "------------------------"
                 python --version
 
+            # installing serverless tool
+            - name: serverless deploy
+              uses: serverless/github-action@v3.1
+            - name: Check serverless
+              run: |
+                echo ""
+                echo "------------------------"
+                echo "Serverless version"
+                echo "------------------------"
+                serverless --version
+
+
             # setup other required tools
             - name: Setup Other tools
               run: ./InstallTools.sh
