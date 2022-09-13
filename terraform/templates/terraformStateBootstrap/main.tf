@@ -1,6 +1,19 @@
 resource "aws_s3_bucket" "aaiTerraformStateS3Bucket" {
     bucket = "aai-terraform-state-do-not-delete-${var.env}"
+}
+
+resource "aws_s3_bucket_acl" "aaiTerraformStateS3Bucket" {
+    bucket = aws_s3_bucket.aaiTerraformStateS3Bucket.id
     acl    = "private"
+}
+
+resource "aws_s3_bucket_public_access_block" "aaiTerraformStateS3Bucket" {
+    bucket = aws_s3_bucket.aaiTerraformStateS3Bucket.id
+
+    block_public_acls       = true
+    block_public_policy     = true
+    ignore_public_acls      = true
+    restrict_public_buckets = true
 }
 
 resource "aws_dynamodb_table" "aaiDynamodbTerraformLock" {
