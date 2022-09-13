@@ -6,6 +6,7 @@
 declare -r TRUE=0
 declare -r FALSE=1
 declare -r NOT_AVAILABLE="NotAvailable"
+declare -a ENV_ARRAY=("dev" "stage" "prod")
 declare -a REGION_ARRAY=(
     "us-east-1"
     "us-east-2"

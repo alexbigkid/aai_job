@@ -131,7 +131,8 @@ GetFullDirectoryNameFor $LAMBDAS_DIR_SUFFIX LAMBDA_DIR || PrintUsageAndExitWithC
 echo "  [$0]: LAMBDA_DIR    = $LAMBDA_DIR"
 echo "  [$0]: REGION        = $REGION"
 
-# validate region
+# validate env and region
+IsPredefinedParameterValid $ENV "${ENV_ARRAY[@]}" || PrintUsageAndExitWithCode $EXIT_CODE_NOT_VALID_PARAMETER
 IsPredefinedParameterValid $REGION "${REGION_ARRAY[@]}" || PrintUsageAndExitWithCode $EXIT_CODE_NOT_VALID_PARAMETER
 
 pushd $LAMBDA_DIR
