@@ -69,16 +69,16 @@ jobs:
                 aws --version
 
             # deploys Terraform first, unit tests lambdas and deploys them
-            - name: Deploy
-              run: ./deploy.sh
-              shell: bash
-              env:
-                AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                AWS_DEFAULT_REGION: $(REGION)
-                TF_VAR_env: $(ENV)
-                TF_INPUT: false
-                TF_IN_AUTOMATION: true
+            # - name: Deploy
+            #   run: ./deploy.sh
+            #   shell: bash
+            #   env:
+            #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            #     AWS_DEFAULT_REGION: $(REGION)
+            #     TF_VAR_env: $(ENV)
+            #     TF_INPUT: false
+            #     TF_IN_AUTOMATION: true
 
             # run integration tests
             # - name: Integration tests
