@@ -69,6 +69,10 @@ jobs:
                 echo "------------------------"
                 [ "$(command -v aws)" == "" ] && sudo npm -g install awscli || which aws
                 aws --version
+                echo "------------------------"
+                echo "Check brew"
+                echo "------------------------"
+                which brew
 
             # deploys Terraform first, unit tests lambdas and deploys them
             # - name: Deploy
