@@ -46,7 +46,7 @@ InstallRequiredToolsUsingNpm ()
     echo
     echo -e "${GREEN}----------------------------------------------------------------------${NC}"
     echo -e "${GREEN}| ${FUNCNAME[0]}${NC}"
-    echo -e "${YELLOW}| Please use this function if the installation of required tool fails with InstallRequiredToolsUsingBrew.${NC}"
+    # echo -e "${YELLOW}| Please use this function if the installation of required tool fails with InstallRequiredToolsUsingBrew.${NC}"
     echo -e "${GREEN}----------------------------------------------------------------------${NC}"
 
     for (( i = 0; i < ${#TOOL[@]}; i++)); do
