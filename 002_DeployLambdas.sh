@@ -38,14 +38,13 @@ DeployLambdaProject()
 
     pushd $LOCAL_LAMBDA_PRJ/$LOCAL_LAMBDA_DIRECTORY
     if [[ $LOCAL_EXIT_CODE -eq $TRUE ]]; then
-        echo "--------------------------------------------------------------------"
         echo "**** deploying: $LOCAL_LAMBDA_PRJ/$LOCAL_LAMBDA_DIRECTORY"
         echo "serverless deploy --region $LOCAL_REGION --stage $LOCAL_ENV --verbose"
         echo "--------------------------------------------------------------------"
         serverless deploy --region $LOCAL_REGION --stage $LOCAL_ENV --verbose
+        LOCAL_EXIT_CODE=$?
         echo "--------------------------------------------------------------------"
         echo
-        LOCAL_EXIT_CODE=$?
     fi
     popd
 
@@ -67,15 +66,14 @@ TestLambdaProject()
     local LOCAL_PROJECT_ROOT_DIR=$PWD
 
     pushd $LOCAL_LAMBDA_PRJ/$LOCAL_LAMBDA_TEST_DIR
-    echo "--------------------------------------------------------------------"
     echo "Installing test dependencies"
     echo "--------------------------------------------------------------------"
     make install_test
     echo
-    echo "--------------------------------------------------------------------"
     echo "testing in: $LOCAL_LAMBDA_PRJ/$LOCAL_LAMBDA_TEST_DIR"
     echo "--------------------------------------------------------------------"
     make test_ff
+    LOCAL_EXIT_CODE=$?
     echo "--------------------------------------------------------------------"
     echo
     popd
