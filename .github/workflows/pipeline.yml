@@ -50,33 +50,12 @@ jobs:
 
             # setup other required tools
             - name: Setup Other tools
-              run: |
-                echo ""
-                echo "------------------------"
-                echo "Check parallel"
-                echo "------------------------"
-                [ "$(command -v parallel)" == "" ] && sudo npm -g install parallel || which parallel
-                parallel --version
-                echo ""
-                echo "------------------------"
-                echo "Check serverless"
-                echo "------------------------"
-                [ "$(command -v serverless)" == "" ] && sudo npm -g install serverless || which serverless
-                serverless --version
-                echo ""
-                echo "------------------------"
-                echo "Check awscli"
-                echo "------------------------"
-                [ "$(command -v aws)" == "" ] && sudo npm -g install awscli || which aws
-                aws --version
-                echo "------------------------"
-                echo "Check brew"
-                echo "------------------------"
-                which brew
+              run: InstallTools.sh
+              shell: bash
 
             # deploys Terraform first, unit tests lambdas and deploys them
             # - name: Deploy
-            #   run: ./deploy.sh
+            #   run: Deploy.sh
             #   shell: bash
             #   env:
             #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
