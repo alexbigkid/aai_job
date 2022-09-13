@@ -123,6 +123,7 @@ echo -e "${GREEN}-> $0 ($@)${NC}"
 IsParameterHelp $# $1 && PrintUsageAndExitWithCode $EXIT_CODE_SUCCESS
 CheckNumberOfParameters $EXPECTED_NUMBER_OF_PARAMETERS $@ || PrintUsageAndExitWithCode $?
 
+[ "$ENV" == "" ] && echo -e "${RED}ERROR:${NC} ${PURPLE}ENV is not defined${NC}" && PrintUsageAndExitWithCode $EXIT_CODE_GENERAL_ERROR
 [ "$REGION" == "" ] && echo -e "${RED}ERROR:${NC} ${PURPLE}REGION is not defined${NC}" && PrintUsageAndExitWithCode $EXIT_CODE_GENERAL_ERROR
 [ "$AWS_ACCESS_KEY_ID" == "" ] && echo -e "${RED}ERROR:${NC} ${PURPLE}AWS_ACCESS_KEY_ID is not defined${NC}" && PrintUsageAndExitWithCode $EXIT_CODE_GENERAL_ERROR
 [ "$AWS_SECRET_ACCESS_KEY" == "" ] && echo -e "${RED}ERROR:${NC} ${PURPLE}AWS_SECRET_ACCESS_KEY is not defined${NC}" && PrintUsageAndExitWithCode $EXIT_CODE_GENERAL_ERROR

@@ -22,16 +22,6 @@ PrintUsageAndExitWithCode() {
     exit $1
 }
 
-ValidateEnvironmentVariablesAreDefined() {
-    echo
-    echo "-> ${FUNCNAME[0]} ($@)"
-    [ "$AWS_DEFAULT_REGION" == "" ] && echo -e "${RED}ERROR:${NC} ${PURPLE}AWS_DEFAULT_REGION is not defined${NC}" && PrintUsageAndExitWithCode $EXIT_CODE_GENERAL_ERROR
-    [ "$AWS_ACCESS_KEY_ID" == "" ] && echo -e "${RED}ERROR:${NC} ${PURPLE}AWS_ACCESS_KEY_ID is not defined${NC}" && PrintUsageAndExitWithCode $EXIT_CODE_GENERAL_ERROR
-    [ "$AWS_SECRET_ACCESS_KEY" == "" ] && echo -e "${RED}ERROR:${NC} ${PURPLE}AWS_SECRET_ACCESS_KEY is not defined${NC}" && PrintUsageAndExitWithCode $EXIT_CODE_GENERAL_ERROR
-    echo "<- ${FUNCNAME[0]} (0)"
-    echo
-}
-
 DeployTerraform() {
     echo
     echo -e "${YELLOW}-> ${FUNCNAME[0]} ($@)${NC}"
@@ -84,9 +74,17 @@ fi
 echo
 echo -e "${GREEN}-> $0 ($@)${NC}"
 
+
+
 IsParameterHelp $# $1 && PrintUsageAndExitWithCode $EXIT_CODE_SUCCESS
 CheckNumberOfParameters $EXPECTED_NUMBER_OF_PARAMS $@ || PrintUsageAndExitWithCode $EXIT_CODE_INVALID_NUMBER_OF_PARAMETERS
-ValidateEnvironmentVariablesAreDefined
+
+[ "$ENV" == "" ] && echo -e "${RED}ERROR:${NC} ${PURPLE}ENV is not defined${NC}" && PrintUsageAndExitWithCode $EXIT_CODE_GENERAL_ERROR
+[ "$REGION" == "" ] && echo -e "${RED}ERROR:${NC} ${PURPLE}REGION is not defined${NC}" && PrintUsageAndExitWithCode $EXIT_CODE_GENERAL_ERROR
+[ "$AWS_ACCESS_KEY_ID" == "" ] && echo -e "${RED}ERROR:${NC} ${PURPLE}AWS_ACCESS_KEY_ID is not defined${NC}" && PrintUsageAndExitWithCode $EXIT_CODE_GENERAL_ERROR
+[ "$AWS_SECRET_ACCESS_KEY" == "" ] && echo -e "${RED}ERROR:${NC} ${PURPLE}AWS_SECRET_ACCESS_KEY is not defined${NC}" && PrintUsageAndExitWithCode $EXIT_CODE_GENERAL_ERROR
+[ "$AWS_DEFAULT_REGION" == "" ] && echo -e "${RED}ERROR:${NC} ${PURPLE}AWS_DEFAULT_REGION is not defined${NC}" && PrintUsageAndExitWithCode $EXIT_CODE_GENERAL_ERROR
+
 IsPredefinedParameterValid $ENV "${ENV_ARRAY[@]}" || PrintUsageAndExitWithCode $EXIT_CODE_NOT_VALID_PARAMETER
 IsPredefinedParameterValid $AWS_DEFAULT_REGION "${REGION_ARRAY[@]}" || PrintUsageAndExitWithCode $EXIT_CODE_NOT_VALID_PARAMETER
 
