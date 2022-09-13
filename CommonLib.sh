@@ -114,22 +114,3 @@ IsPredefinedParameterValid()
         return $FALSE
     fi
 }
-
-GetFullDirectoryNameFor()
-{
-    echo "-> ${FUNCNAME[0]} ($@)"
-    local LCL_PARTIAL_DIR_NAME=$1
-    local LCL_DIR_NAME=$2
-    # read all directories ending with -stacks
-    local LCL_DIRS=($(ls -d *$LCL_PARTIAL_DIR_NAME))
-    # only one directoy for stacks should be avilable
-    if [ ${#LCL_DIRS[@]} -ne 1 ]; then
-        echo "ERROR: 1 $LCL_PARTIAL_DIR_NAME directory have to be present!"
-        echo "  Number of $LCL_PARTIAL_DIR_NAME directories available: ${#LCL_DIRS[@]}"
-        echo "  Name of $LCL_PARTIAL_DIR_NAME directories: ${LCL_DIRS[@]}"
-        return $EXIT_CODE_STACK_FOLDER_NOT_FOUND
-    fi
-    echo "-> ${FUNCNAME[0]} (${LCL_DIRS[0]})"
-    eval $LCL_DIR_NAME=\${LCL_DIRS[0]}
-    return $EXIT_CODE_SUCCESS
-}

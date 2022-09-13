@@ -6,9 +6,8 @@
 
 EXPECTED_NUMBER_OF_PARAMETERS=0
 COMMON_LIB_FILE="./CommonLib.sh"
-LAMBDA_DIR=""
-LAMBDAS_DIR_SUFFIX="lambdas"
-LAMBDA_STRING="Lambda"
+LAMBDA_DIR="lambdas"
+LAMBDA_SUB_DIR_SUFFIX="lambda"
 
 PrintUsageAndExitWithCode()
 {
@@ -25,22 +24,23 @@ PrintUsageAndExitWithCode()
 }
 export -f PrintUsageAndExitWithCode
 
+
 DeployLambdaProject()
 {
     echo
     echo "-> ${FUNCNAME[0]} ($@)"
     local LOCAL_EXIT_CODE=$TRUE
     local LOCAL_REGION=$1
-    local LOCAL_LAMBDA_PRJ=$2
-    local LOCAL_LAMBDA_DIRECTORY=$3
+    local LOCAL_ENV=$2
+    local LOCAL_LAMBDA_PRJ=$3
+    local LOCAL_LAMBDA_DIRECTORY=$4
     local AWS_PROFILE="default"
 
     pushd $LOCAL_LAMBDA_PRJ/$LOCAL_LAMBDA_DIRECTORY
     if [[ $LOCAL_EXIT_CODE -eq $TRUE ]]; then
         echo "**** deploying: $LOCAL_LAMBDA_PRJ/$LOCAL_LAMBDA_DIRECTORY"
-        echo "serverless --region $LOCAL_REGION --stackName $LOCAL_LAMBDA_DIRECTORY deploy"
-        serverless --region $LOCAL_REGION --stackName $LOCAL_LAMBDA_DIRECTORY deploy
-
+        echo "serverless --region $LOCAL_REGION --stage $LOCAL_ENV --stackName $LOCAL_LAMBDA_DIRECTORY deploy"
+        serverless --region $LOCAL_REGION --stage $LOCAL_ENV --stackName $LOCAL_LAMBDA_DIRECTORY deploy
         LOCAL_EXIT_CODE=$?
     fi
     popd
@@ -50,6 +50,7 @@ DeployLambdaProject()
     return $LOCAL_EXIT_CODE
 }
 export -f DeployLambdaProject
+
 
 TestLambdaProject()
 {
@@ -62,10 +63,10 @@ TestLambdaProject()
     local LOCAL_PROJECT_ROOT_DIR=$PWD
 
     pushd $LOCAL_LAMBDA_PRJ/$LOCAL_LAMBDA_TEST_DIR
-
-    # CS_PROJECT=$(ls *.csproj)
-    # echo "testing in: $LOCAL_LAMBDA_PRJ/$LOCAL_LAMBDA_TEST_DIR project: $CS_PROJECT"
-
+    echo "Installing test dependencies"
+    make install_test
+    echo "testing in: $LOCAL_LAMBDA_PRJ/$LOCAL_LAMBDA_TEST_DIR"
+    make test_ff
     popd
 
     echo "<- ${FUNCNAME[0]} ($LOCAL_LAMBDA_PRJ $LOCAL_EXIT_CODE)"
@@ -74,6 +75,7 @@ TestLambdaProject()
 }
 export -f TestLambdaProject
 
+
 TestAndDeployLambda()
 {
     local LCL_YELLOW='\033[1;33m'
@@ -81,18 +83,19 @@ TestAndDeployLambda()
     echo
     echo -e "${LCL_YELLOW}-> ${FUNCNAME[0]} ($@)${LCL_NC}"
     local LOCAL_REGION=$1
-    local LOCAL_LAMBDA_PRJ=$2
+    local LOCAL_ENV=$2
+    local LOCAL_LAMBDA_PRJ=$3
     local LOCAL_EXIT_CODE=$TRUE
     local LOCAL_RET_VALUE=$TRUE
-    local LOCAL_TRUNCATED_LAMBDA_DIRECTORY=${LOCAL_LAMBDA_PRJ%%Lambda}
+    local LOCAL_TRUNCATED_LAMBDA_DIRECTORY=${LOCAL_LAMBDA_PRJ%%-lambda}
 
     echo
     echo "**** About to test, build and deploy lambda $LOCAL_TRUNCATED_LAMBDA_DIRECTORY"
     echo "-----------------------------------------------------------------"
-    TestLambdaProject $LOCAL_LAMBDA_PRJ $LOCAL_TRUNCATED_LAMBDA_DIRECTORY.Tests
+    TestLambdaProject $LOCAL_LAMBDA_PRJ $LOCAL_TRUNCATED_LAMBDA_DIRECTORY
     LOCAL_RET_VALUE=$?
     [[ $LOCAL_EXIT_CODE -eq $TRUE ]] && LOCAL_EXIT_CODE=$LOCAL_RET_VALUE
-    DeployLambdaProject $LOCAL_REGION $LOCAL_LAMBDA_PRJ $LOCAL_TRUNCATED_LAMBDA_DIRECTORY
+    DeployLambdaProject $LOCAL_REGION $LOCAL_ENV $LOCAL_LAMBDA_PRJ $LOCAL_TRUNCATED_LAMBDA_DIRECTORY
     LOCAL_RET_VALUE=$?
     [[ $LOCAL_EXIT_CODE -eq $TRUE ]] && LOCAL_EXIT_CODE=$LOCAL_RET_VALUE
 
@@ -128,7 +131,6 @@ CheckNumberOfParameters $EXPECTED_NUMBER_OF_PARAMETERS $@ || PrintUsageAndExitWi
 [ "$AWS_ACCESS_KEY_ID" == "" ] && echo -e "${RED}ERROR:${NC} ${PURPLE}AWS_ACCESS_KEY_ID is not defined${NC}" && PrintUsageAndExitWithCode $EXIT_CODE_GENERAL_ERROR
 [ "$AWS_SECRET_ACCESS_KEY" == "" ] && echo -e "${RED}ERROR:${NC} ${PURPLE}AWS_SECRET_ACCESS_KEY is not defined${NC}" && PrintUsageAndExitWithCode $EXIT_CODE_GENERAL_ERROR
 
-GetFullDirectoryNameFor $LAMBDAS_DIR_SUFFIX LAMBDA_DIR || PrintUsageAndExitWithCode $?
 echo "  [$0]: LAMBDA_DIR    = $LAMBDA_DIR"
 echo "  [$0]: REGION        = $REGION"
 
@@ -138,11 +140,11 @@ IsPredefinedParameterValid $REGION "${REGION_ARRAY[@]}" || PrintUsageAndExitWith
 
 pushd $LAMBDA_DIR
 
-ALL_LAMBDA_DIRECTORIES=$(ls -d *$LAMBDA_STRING)
+ALL_LAMBDA_DIRECTORIES=$(ls -d *-$LAMBDA_SUB_DIR_SUFFIX)
 echo "ALL_LAMBDA_DIRECTORIES = "
 echo "$ALL_LAMBDA_DIRECTORIES"
 
-parallel --halt now,fail=1 TestAndDeployLambda $REGION ::: ${ALL_LAMBDA_DIRECTORIES[@]}
+parallel --halt now,fail=1 TestAndDeployLambda $REGION $ENV ::: ${ALL_LAMBDA_DIRECTORIES[@]}
 RET_VALUE=$?
 [[ $EXIT_CODE -eq $TRUE ]] && EXIT_CODE=$RET_VALUE
 
