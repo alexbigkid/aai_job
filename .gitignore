@@ -130,3 +130,9 @@ dmypy.json
 
 # Serverless directories
 .serverless
+
+# terraform hidden directories
+**/.terraform
+# terraform state files should be stored in the S3 bucket, do not commit them to source code!
+terraform.tfstate*
+**/.terraform.lock.hcl
