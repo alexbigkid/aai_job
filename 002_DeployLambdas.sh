@@ -92,7 +92,7 @@ TestAndDeployLambda()
     echo
     echo "**** About to test, build and deploy lambda $LOCAL_TRUNCATED_LAMBDA_DIRECTORY"
     echo "-----------------------------------------------------------------"
-    TestLambdaProject $LOCAL_LAMBDA_PRJ $LOCAL_TRUNCATED_LAMBDA_DIRECTORY
+    TestLambdaProject $LOCAL_LAMBDA_PRJ tests
     LOCAL_RET_VALUE=$?
     [[ $LOCAL_EXIT_CODE -eq $TRUE ]] && LOCAL_EXIT_CODE=$LOCAL_RET_VALUE
     DeployLambdaProject $LOCAL_REGION $LOCAL_ENV $LOCAL_LAMBDA_PRJ $LOCAL_TRUNCATED_LAMBDA_DIRECTORY
