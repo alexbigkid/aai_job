@@ -40,9 +40,9 @@ DeployLambdaProject()
     if [[ $LOCAL_EXIT_CODE -eq $TRUE ]]; then
         echo "--------------------------------------------------------------------"
         echo "**** deploying: $LOCAL_LAMBDA_PRJ/$LOCAL_LAMBDA_DIRECTORY"
-        echo "serverless deploy --region $LOCAL_REGION --stage $LOCAL_ENV --stackName $LOCAL_LAMBDA_DIRECTORY --verbose"
+        echo "serverless deploy --region $LOCAL_REGION --stage $LOCAL_ENV --verbose"
         echo "--------------------------------------------------------------------"
-        serverless deploy --region $LOCAL_REGION --stage $LOCAL_ENV --stackName $LOCAL_LAMBDA_DIRECTORY --verbose
+        serverless deploy --region $LOCAL_REGION --stage $LOCAL_ENV --verbose
         echo "--------------------------------------------------------------------"
         echo
         LOCAL_EXIT_CODE=$?
