@@ -50,7 +50,7 @@ jobs:
 
             # setup other required tools
             - name: Setup Other tools
-              run: InstallTools.sh
+              run: ./InstallTools.sh
               shell: bash
 
             # deploys Terraform first, unit tests lambdas and deploys them
