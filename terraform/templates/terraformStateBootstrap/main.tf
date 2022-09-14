@@ -1,33 +1,33 @@
 resource "aws_s3_bucket" "aaiTerraformStateS3Bucket" {
-    bucket = "aai-terraform-state-do-not-delete-${var.env}"
+  bucket = "aai-terraform-state-do-not-delete-${var.env}"
 }
 
 resource "aws_s3_bucket_acl" "aaiTerraformStateS3Bucket" {
-    bucket = aws_s3_bucket.aaiTerraformStateS3Bucket.id
-    acl    = "private"
+  bucket = aws_s3_bucket.aaiTerraformStateS3Bucket.id
+  acl    = "private"
 }
 
 resource "aws_s3_bucket_public_access_block" "aaiTerraformStateS3Bucket" {
-    bucket = aws_s3_bucket.aaiTerraformStateS3Bucket.id
+  bucket = aws_s3_bucket.aaiTerraformStateS3Bucket.id
 
-    block_public_acls       = true
-    block_public_policy     = true
-    ignore_public_acls      = true
-    restrict_public_buckets = true
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
 resource "aws_dynamodb_table" "aaiDynamodbTerraformLock" {
-    name           = "aai-terraform-lock-${var.env}"
-    hash_key       = "LockID"
-    read_capacity  = 20
-    write_capacity = 20
+  name           = "aai-terraform-lock-${var.env}"
+  hash_key       = "LockID"
+  read_capacity  = 20
+  write_capacity = 20
 
-    attribute {
-        name = "LockID"
-        type = "S"
-    }
+  attribute {
+    name = "LockID"
+    type = "S"
+  }
 
-    tags = {
-        name = "AAI Terraform Lock Table ${var.env}"
-    }
+  tags = {
+    name = "AAI Terraform Lock Table ${var.env}"
+  }
 }
