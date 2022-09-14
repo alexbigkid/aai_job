@@ -34,5 +34,5 @@ resource "aws_db_instance" "aai-postgre-db" {
   publicly_accessible    = true
   vpc_security_group_ids = [aws_security_group.aai-security-group.id]
   username               = "aai_admin"
-  password               = "random_string.aai-db-password.result}"
+  password               = random_string.aai-db-password.result
 }
