@@ -43,9 +43,10 @@ DeployTerraform() {
 DeployTerraformProjects() {
     echo
     echo -e "${YELLOW}-> ${FUNCNAME[0]} ($@)${NC}"
+    local LCL_ENV=$1
     local LCL_EXIT_CODE=0
 
-    TERRAFORM_PROJECTS=$(ls -d $TERRAFORM_DIR/[0-9][0-9][0-9]*/ | sort)
+    TERRAFORM_PROJECTS=$(ls -d $TERRAFORM_DIR/$LCL_ENV/[0-9][0-9][0-9]*/ | sort)
     echo
     echo "terraform projects found:"
     echo "$TERRAFORM_PROJECTS"
@@ -93,7 +94,7 @@ echo -e "${YELLOW} configured terraform variables${NC}"
 echo "------------------------------------------------"
 set | grep TF_
 
-DeployTerraformProjects
+DeployTerraformProjects $ENV
 
 echo -e "${GREEN}<- $0 ($EXIT_CODE)${NC}"
 echo
