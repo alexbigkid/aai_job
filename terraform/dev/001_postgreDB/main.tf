@@ -1,7 +1,6 @@
 locals {
   env     = "dev"
   region  = "us-west-1"
-  profile = "gh_pipeline"
 }
 
 terraform {
@@ -17,7 +16,6 @@ terraform {
 
 provider "aws" {
   region  = local.region
-  profile = local.profile
 }
 
 
