@@ -32,68 +32,68 @@ CREATE TABLE IF NOT EXISTS team (
 );
 
 -- user table creation
-CREATE TABLE TABLE IF NOT EXISTS user (
+CREATE TABLE IF NOT EXISTS user (
     user_id SERIAL,
-    team_id INT NOT NULL,
+    team_id INT,
     login_name VARCHAR(32) UNIQUE NOT NULL,
     -- password_hash VARCHAR(32) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     CONSTRAINT pk_user_id PRIMARY KEY (user_id),
-    CONSTRAINT fk_team_id FOREIGN KEY (team_id) REFERENCES team (team_id)
+    CONSTRAINT fk_team_id FOREIGN KEY (team_id) REFERENCES team (team_id) ON DELETE SET NULL
 );
 
 -- collaborator table creation
-CREATE TABLE TABLE IF NOT EXISTS collaborator (
-    team_id INT NOT NULL,
-    user_id INT NOT NULL,
-    CONSTRAINT pk_team_user_id PRIMARY KEY (team_id, user_id) REFERENCES team (team_id) REFERENCES user (user_id) MATCH FULL
-);
--- if above doe snot work create a normal table with 2 foreign keys
--- CREATE TABLE TABLE IF NOT EXISTS collaborator (
---     collaborator_id SERIAL
+-- CREATE TABLE IF NOT EXISTS collaborator (
 --     team_id INT NOT NULL,
 --     user_id INT NOT NULL,
---     CONSTRAINT pk_collaborator_id PRIMARY KEY (collaborator_id),
---     CONSTRAINT fk_team_id PRIMARY KEY(team_id) REFERENCES team (team_id),
---     CONSTRAINT fk_user_id PRIMARY KEY(user_id) REFERENCES user (user_id)
+--     CONSTRAINT pk_team_user_id PRIMARY KEY (team_id, user_id) REFERENCES team (team_id) REFERENCES user (user_id) MATCH FULL
 -- );
+-- if above doe snot work create a normal table with 2 foreign keys
+CREATE TABLE IF NOT EXISTS collaborator (
+    collaborator_id SERIAL
+    team_id INT NOT NULL,
+    user_id INT NOT NULL,
+    CONSTRAINT pk_collaborator_id PRIMARY KEY (collaborator_id),
+    CONSTRAINT fk_team_id PRIMARY KEY(team_id) REFERENCES team (team_id) ON DELETE CASCADE,
+    CONSTRAINT fk_user_id PRIMARY KEY(user_id) REFERENCES user (user_id) ON DELETE CASCADE
+);
 
 -- project table creation
-CREATE TABLE TABLE IF NOT EXISTS project (
+CREATE TABLE IF NOT EXISTS project (
     project_id SERIAL,
     team_id INT NOT NULL,
     project_name VARCHAR(32) UNIQUE NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     CONSTRAINT pk_project_id PRIMARY KEY (project_id),
-    CONSTRAINT fk_team_id PRIMARY KEY (team_id) REFERENCES team (team_id)
+    CONSTRAINT fk_team_id PRIMARY KEY (team_id) REFERENCES team (team_id) ON DELETE CASCADE
 );
 
 -- device table creation
-CREATE TABLE TABLE IF NOT EXISTS device (
+CREATE TABLE IF NOT EXISTS device (
     device_id SERIAL,
-    project_id INT NOT NULL,
+    project_id INT,
     device_name VARCHAR(32) UNIQUE NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     CONSTRAINT pk_device_id PRIMARY KEY (device_id),
-    CONSTRAINT fk_project_id FOREIGN KEY (project_id) REFERENCES project (project_id)
+    CONSTRAINT fk_project_id FOREIGN KEY (project_id) REFERENCES project (project_id) ON DELETE SET NULL
 );
 
 -- model table creation
-CREATE TABLE TABLE IF NOT EXISTS model (
+CREATE TABLE IF NOT EXISTS model (
     model_id SERIAL,
-    project_id INT NOT NULL,
+    project_id INT,
     model_name VARCHAR(32) UNIQUE NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     CONSTRAINT pk_model_id PRIMARY KEY (model_id),
-    CONSTRAINT fk_project_id FOREIGN KEY (project_id) REFERENCES project (project_id)
+    CONSTRAINT fk_project_id FOREIGN KEY (project_id) REFERENCES project (project_id) ON DELETE SET NULL
 );
 
 -- app table creation
-CREATE TABLE TABLE IF NOT EXISTS app (
+CREATE TABLE IF NOT EXISTS app (
     app_id SERIAL,
-    project_id INT NOT NULL,
+    project_id INT,
     app_name VARCHAR(32) UNIQUE NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     CONSTRAINT pk_app_id PRIMARY KEY (app_id),
-    CONSTRAINT fk_project_id FOREIGN KEY (project_id) REFERENCES project (project_id)
+    CONSTRAINT fk_project_id FOREIGN KEY (project_id) REFERENCES project (project_id) ON DELETE SET NULL
 );
