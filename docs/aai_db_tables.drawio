@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="x2AluWKAR1uVZ7Culayh" name="DB design">
-        <mxGraphModel dx="1039" dy="1524" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="986" dy="922" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -501,20 +501,6 @@
                         <mxPoint x="810" y="718" as="sourcePoint"/>
                         <mxPoint x="810" y="368" as="targetPoint"/>
                     </mxGeometry>
-                </mxCell>
-            </root>
-        </mxGraphModel>
-    </diagram>
-    <diagram id="aO9ldWL5KneAHNrAi0bm" name="table creation">
-        <mxGraphModel dx="1213" dy="1524" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
-            <root>
-                <mxCell id="1K4pT-ExteQJfaDJqZPq-0"/>
-                <mxCell id="1K4pT-ExteQJfaDJqZPq-1" parent="1K4pT-ExteQJfaDJqZPq-0"/>
-                <mxCell id="1K4pT-ExteQJfaDJqZPq-2" value="Creting tables statements" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1K4pT-ExteQJfaDJqZPq-1">
-                    <mxGeometry x="350" y="50" width="180" height="30" as="geometry"/>
-                </mxCell>
-                <mxCell id="1K4pT-ExteQJfaDJqZPq-3" value="CREATTE TABLE&amp;nbsp;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1K4pT-ExteQJfaDJqZPq-1">
-                    <mxGeometry x="40" y="120" width="270" height="70" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
