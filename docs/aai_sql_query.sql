@@ -34,12 +34,12 @@ CREATE TABLE IF NOT EXISTS team (
 -- user table creation
 CREATE TABLE IF NOT EXISTS user (
     user_id SERIAL,
-    team_id INT,
+    team_id INT NOT NULL,
     login_name VARCHAR(32) UNIQUE NOT NULL,
     -- password_hash VARCHAR(32) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     CONSTRAINT pk_user_id PRIMARY KEY (user_id),
-    CONSTRAINT fk_team_id FOREIGN KEY (team_id) REFERENCES team (team_id) ON DELETE SET NULL
+    CONSTRAINT fk_team_id FOREIGN KEY (team_id) REFERENCES team (team_id) ON DELETE CASCADE
 );
 
 -- collaborator table creation
@@ -61,11 +61,11 @@ CREATE TABLE IF NOT EXISTS collaborator (
 -- project table creation
 CREATE TABLE IF NOT EXISTS project (
     project_id SERIAL,
-    team_id INT NOT NULL,
+    team_id INT,
     project_name VARCHAR(32) UNIQUE NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     CONSTRAINT pk_project_id PRIMARY KEY (project_id),
-    CONSTRAINT fk_team_id PRIMARY KEY (team_id) REFERENCES team (team_id) ON DELETE CASCADE
+    CONSTRAINT fk_team_id PRIMARY KEY (team_id) REFERENCES team (team_id) ON DELETE SET NULL
 );
 
 -- device table creation
