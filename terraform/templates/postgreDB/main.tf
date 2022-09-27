@@ -2,14 +2,6 @@ data "aws_vpc" "default" {
   default = true
 }
 
-# probably not a good idea, since the pswd would be visible in the GitHub actions traces and in tfstate file in S3
-# Solution: execute terraform apply locally, it prints the password only when it get deployed 1st time from a local machine.
-resource "random_string" "aai-db-password" {
-  length  = 32
-  upper   = true
-  numeric = true
-  special = false
-}
 
 resource "aws_security_group" "aai-security-group" {
   vpc_id      = data.aws_vpc.default.id
@@ -33,6 +25,6 @@ resource "aws_db_instance" "aai-postgre-db" {
   skip_final_snapshot    = true
   publicly_accessible    = true
   vpc_security_group_ids = [aws_security_group.aai-security-group.id]
-  username               = "aai_admin"
-  password               = random_string.aai-db-password.result
+  username               = var.username
+  password               = var.password
 }

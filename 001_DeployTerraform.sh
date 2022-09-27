@@ -9,6 +9,7 @@ EXIT_CODE=0
 EXPECTED_NUMBER_OF_PARAMS=0
 COMMON_LIB_FILE="CommonLib.sh"
 TERRAFORM_DIR="terraform"
+# TERRAFORM_APPLY_TIMEOUT="10m"
 
 PrintUsageAndExitWithCode() {
     echo
@@ -92,7 +93,8 @@ IsPredefinedParameterValid $AWS_DEFAULT_REGION "${REGION_ARRAY[@]}" || PrintUsag
 echo
 echo -e "${YELLOW} configured terraform variables${NC}"
 echo "------------------------------------------------"
-set | grep TF_
+# DO NOT PRINT on PIPPELINE, since there are sensitive info stored
+# set | grep TF_
 
 DeployTerraformProjects $ENV
 
