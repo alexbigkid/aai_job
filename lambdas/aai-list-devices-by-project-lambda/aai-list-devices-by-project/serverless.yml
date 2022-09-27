@@ -9,11 +9,10 @@ provider:
     runtime: python3.9
     stage: ${opt:stage, 'dev'}
     region: ${opt:region, 'us-west-1'}
-    stackName: dev-aai-list-devices-by-project
-    # stackName: ${self:provider.stage}-${self:service.name}
-    # deploymentBucket:
-    #     name: ${self:provider.stage}-{self:service.name}
-    #     serverSideEncryption: AES256
+    stackName: ${self:service}-${self:provider.stage}
+    deploymentBucket:
+        name: ${self:service}-${self:provider.stage}
+        serverSideEncryption: AES256
 
 package:
     individually: true
