@@ -9,6 +9,9 @@ COMMON_LIB_FILE="./CommonLib.sh"
 LAMBDA_DIR="lambdas"
 LAMBDA_SUB_DIR_SUFFIX="lambda"
 
+#---------------------------
+# functions
+#---------------------------
 PrintUsageAndExitWithCode()
 {
     echo
