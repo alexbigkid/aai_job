@@ -4,13 +4,16 @@
 # u: Treat unset variables and parameters as an error
 # set -eu
 
-
 EXIT_CODE=0
 EXPECTED_NUMBER_OF_PARAMS=0
 COMMON_LIB_FILE="CommonLib.sh"
 TERRAFORM_DIR="terraform"
 # TERRAFORM_APPLY_TIMEOUT="10m"
 
+
+#---------------------------
+# functions
+#---------------------------
 PrintUsageAndExitWithCode() {
     echo
     echo "$0 deploys terraform infrastructure"
